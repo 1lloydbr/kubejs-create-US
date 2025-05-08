@@ -8,6 +8,6 @@
 ClientEvents.lang('en_us', event => {
     event.renameItem('more_useful_copper:copper_helmet', 'Coppermail Helmet');
     event.renameItem('more_useful_copper:copper_chestplate', 'Coppermail Chestplate');
-    event.renameItem('more_useful_copper:copper_leggings', 'Coppermail Leggins');
+    event.renameItem('more_useful_copper:copper_leggings', 'Coppermail Leggings');
     event.renameItem('more_useful_copper:copper_boots', 'Coppermail Boots');
 });
