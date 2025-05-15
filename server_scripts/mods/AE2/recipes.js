@@ -114,4 +114,62 @@ ServerEvents.recipes((event) => {
     });
 
     event.remove({ id: "ae2:network/blocks/inscribers" });
+
+    // Cables adjustment
+
+    const colors = ['white', 'light_gray', 'gray', 'black', 'brown', 'red', 'orange', 'yellow', 'lime', 'green', 'cyan', 'light_blue', 'blue', 'purple', 'magenta', 'pink', 'fluix'];
+    const types = ['glass', 'covered', 'smart'];
+
+    colors.forEach((c) => {
+        event.shapeless(`ae2:${c}_smart_dense_cable`, [`ae2:${c}_covered_dense_cable`, '4x minecraft:redstone', '4x minecraft:glowstone_dust']).id(`ae2:network/cables/dense_smart_${c}_1`);
+        event.shapeless(`ae2:${c}_smart_dense_cable`, [`ae2:${c}_covered_dense_cable`, '4x minecraft:redstone', 'minecraft:glowstone']).id(`ae2:network/cables/dense_smart_${c}_2`);
+        if (c != 'fluix') {
+            event.shapeless(`ae2:${c}_smart_cable`, [`ae2:${c}_covered_cable`, 'minecraft:redstone', 'minecraft:glowstone_dust']).id(`ae2:network/cables/smart_${c}_1`);
+        }
+        types.forEach((t) => {
+            if (t != 'glass') {
+                if (c != 'fluix') {
+                    event.remove({ id: `ae2:network/cables/${t}_${c}` });
+                } else {
+                    event.remove({ id: `ae2:network/cables/dense_${t}_from_${t}` });
+                }
+                event.remove({ id: `ae2:network/cables/dense_${t}_${c}` });
+                event.shapeless(`4x ae2:${c}_${t}_cable`, [`ae2:${c}_${t}_dense_cable`]).id(`ae2:network/cables/${t}_from_dense_${t}_${c}`);
+                event.shapeless(`ae2:${c}_${t}_dense_cable`, [`4x ae2:${c}_${t}_cable`]).id(`ae2:network/cables/dense_${t}_from_${t}_${c}`);
+
+            }
+
+            if (c != 'fluix') {
+                if (t != 'glass') {
+                    event.shaped(
+                        `8x ae2:${c}_${t}_dense_cable`,
+                        [
+                            'ccc',
+                            'cdc',
+                            'ccc',
+                        ],
+                        {
+                            c: `#ae2:${t}_dense_cable`,
+                            d: `#forge:dyes/${c}`
+                        }
+                    ).id(`ae2:network/cables/dense_${t}_${c}`);
+                }
+                event.shaped(
+                    `8x ae2:${c}_${t}_cable`,
+                    [
+                        'ccc',
+                        'cdc',
+                        'ccc',
+                    ],
+                    {
+                        c: `#ae2:${t}_cable`,
+                        d: `#forge:dyes/${c}`
+                    }
+                ).id(`ae2:network/cables/${t}_${c}`);
+            }
+
+
+        });
+
+    });
 });
